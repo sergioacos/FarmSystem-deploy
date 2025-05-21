@@ -1,0 +1,29 @@
+# Node
+node_modules/
+
+# Dotenv
+.env
+
+# Logs
+*.log
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Build
+/dist/
+/build/
+/coverage/
+
+# Frontend (React con Vite o CRA)
+frontend/node_modules/
+frontend/dist/
+
+# Backend
+backend/node_modules/
+backend/.env
+
+# OS
+.DS_Store
+Thumbs.db

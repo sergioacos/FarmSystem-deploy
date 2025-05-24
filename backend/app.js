@@ -11,8 +11,11 @@ app.use(cors()); // Permite peticiones desde el frontend
 app.use(express.json()); // Permite leer JSON en los requests
 
 // Rutas
-const ejemploRoutes = require('./routes/ejemplo.routes');
-app.use('/api/ejemplo', ejemploRoutes);
+const productoRoutes = require('./routes/producto.routes');
+const categoriaRoutes = require('./routes/categoria.routes');
+
+app.use('/api/producto', productoRoutes);
+app.use('/api/categoria', categoriaRoutes)
 
 app.use("/api/usuarios", userRoutes);
 app.use("/api/auth", authRoutes);

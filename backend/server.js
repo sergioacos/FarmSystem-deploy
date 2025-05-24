@@ -1,12 +1,14 @@
 const app = require('./app');
 const mongoose = require('mongoose');
 require('dotenv').config();
-
+//CONEXION BD EN EL ARCHIVO .env
+//PORT=5001
+//USER=farmaciadb
+//PASSWORD=fqeE8Zm8DQYuOslKZ
+//DBNAME=farmacia
 const PORT = process.env.PORT || 5000;
-
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+const uri =  `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@clusterfarmacia.8vvwtum.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority&appName=ClusterFarmacia`;
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true 
 }).then(() => {
   console.log('Conectado a MongoDB');
   app.listen(PORT, () => {

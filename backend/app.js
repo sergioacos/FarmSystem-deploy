@@ -7,6 +7,8 @@ const app = express();
 app.use(cors()); // Permite peticiones desde el frontend
 app.use(express.json()); // Permite leer JSON en los requests
 
+
+
 // Rutas
 const productoRoutes = require('./routes/producto.routes');
 const categoriaRoutes = require('./routes/categoria.routes');

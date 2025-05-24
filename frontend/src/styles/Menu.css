@@ -1,0 +1,44 @@
+
+.menu-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #e3f2fd;
+}
+
+.menu-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.menu-box h2 {
+  margin-bottom: 24px;
+  color: #1565c0;
+}
+
+.menu-box button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-box button:last-child {
+  background-color: #9e9e9e;
+}
+
+.menu-box button:hover {
+  opacity: 0.9;
+}

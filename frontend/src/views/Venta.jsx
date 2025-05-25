@@ -8,6 +8,8 @@ const Ventas = () => {
   const [filtro, setFiltro] = useState("");
   const [carrito, setCarrito] = useState([]);
   const [total, setTotal] = useState(0);
+  // const [indiceEditando, setIndiceEditando] = useState(null);
+  // const [nuevaCantidad, setNuevaCantidad] = useState(1);
 
 
 
@@ -16,7 +18,7 @@ const Ventas = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/producto");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/producto`);
         setProductos(response.data);
       } catch (error) {
         console.error("Error al obtener los productos:", error);
@@ -42,18 +44,23 @@ const Ventas = () => {
   });
 
   const agregarAlCarrito = (producto) => {
-  const cantidad = parseInt(prompt(`¿Cuántas unidades de ${producto.nombre}?`), 10);
-  if (isNaN(cantidad) || cantidad <= 0) return;
+  const itemExistente = carrito.find((item) => item.producto_id === producto._id);
+
+  if (itemExistente) {
+    alert("Este producto ya está en el carrito. Editá la cantidad desde la lista.");
+    return;
+  }
 
   const item = {
     producto_id: producto._id,
     nombre: producto.nombre,
-    cantidad,
-    precio_unitario: producto.precio // puedes permitir que el usuario edite esto si querés
+    cantidad: 1,
+    precio_unitario: producto.precio
   };
 
   setCarrito([...carrito, item]);
 };
+
 
 const enviarVenta = async () => {
   if (carrito.length === 0) {
@@ -61,7 +68,7 @@ const enviarVenta = async () => {
     return;
   }
 
-//   const total = carrito.reduce((acc, item) => acc + (item.cantidad * item.precio_unitario), 0);
+
 
   const nuevaVenta = {
     productos: carrito,
@@ -77,6 +84,35 @@ const enviarVenta = async () => {
     console.error("Error al registrar la venta:", error);
   }
 };
+
+const eliminarDelCarrito = (index) => {
+  const nuevoCarrito = carrito.filter((_, i) => i !== index);
+  setCarrito(nuevoCarrito);
+};
+
+
+// const iniciarEdicion = (index, cantidadActual) => {
+//   setIndiceEditando(index);
+//   setNuevaCantidad(cantidadActual);
+// };
+
+// const cancelarEdicion = () => {
+//   setIndiceEditando(null);
+//   setNuevaCantidad(1);
+// };
+
+// const guardarCantidadEditada = (index) => {
+//   if (nuevaCantidad <= 0) {
+//     alert("Cantidad inválida.");
+//     return;
+//   }
+
+//   const nuevoCarrito = [...carrito];
+//   nuevoCarrito[index].cantidad = nuevaCantidad;
+//   setCarrito(nuevoCarrito);
+
+//   cancelarEdicion(); // limpiar estados
+// };
 
 
 
@@ -127,13 +163,67 @@ const enviarVenta = async () => {
     <p>No hay productos agregados.</p>
   ) : (
     <>
-      <ul>
+     
+      {/* <ul>
         {carrito.map((item, index) => (
           <li key={index}>
-            Producto: {item.nombre} - Cantidad: {item.cantidad} - Precio unitario: ${item.precio_unitario}
+            {item.nombre} - Precio unitario: ${item.precio_unitario} -
+
+            {indiceEditando === index ? (
+              <>
+                <input
+                  type="number"
+                  min="1"
+                  value={nuevaCantidad}
+                  onChange={(e) => setNuevaCantidad(Number(e.target.value))}
+                  style={{ width: "60px", marginLeft: "10px" }}
+                />
+                <button onClick={() => guardarCantidadEditada(index)}>Guardar</button>
+                <button onClick={() => cancelarEdicion()}>Cancelar</button>
+              </>
+            ) : (
+              <>
+                Cantidad: {item.cantidad}
+                <button onClick={() => iniciarEdicion(index, item.cantidad)}>Editar</button>
+                <button onClick={() => eliminarDelCarrito(index)}>Eliminar</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul> */}
+
+      <ul>
+        {carrito.map((item, index) => (
+          <li key={item.producto_id}>
+            {item.nombre} - Precio unitario: ${item.precio_unitario} -
+            <label style={{ marginLeft: '10px' }}>
+              Cantidad:
+              <input
+                type="number"
+                min="1"
+                value={item.cantidad}
+                onChange={(e) => {
+                  const nuevaCantidad = Number(e.target.value);
+                  if (nuevaCantidad > 0) {
+                    setCarrito((prevCarrito) =>
+                      prevCarrito.map((prod, i) =>
+                        i === index ? { ...prod, cantidad: nuevaCantidad } : prod
+                      )
+                    );
+                  }
+                }}
+                style={{ width: "60px", marginLeft: "5px" }}
+              />
+            </label>
+            <button onClick={() => eliminarDelCarrito(index)} style={{ marginLeft: "10px" }}>
+              Eliminar
+            </button>
           </li>
         ))}
       </ul>
+
+
+
       <p><strong>Total: ${total.toFixed(2)}</strong></p>
       <button onClick={enviarVenta}>Confirmar Venta</button>
     </>

@@ -11,7 +11,7 @@ const {
 
 const verifyAdmin = require("../middleware/verifyAdmin");
 
-router.get("/", verifyAdmin, getAllUsers);
+router.get("/", /*verifyAdmin,*/ getAllUsers);
 router.get("/:id", verifyAdmin, getUserById);
 router.post("/", verifyAdmin, createUser);
 router.put("/:id", verifyAdmin, updateUser);

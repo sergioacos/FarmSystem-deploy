@@ -1,6 +1,6 @@
 # FarmSystem 💊
 
-Una aplicación web para gestionar un sistema de farmcia en línea con funcionalidades de autenticación, gestión de usuarios, carrito de compras y ventas, y gestión de productos 
+Una aplicación web para gestionar un sistema de farmacia en línea con funcionalidades de autenticación, gestión de usuarios, carrito de compras y ventas, y gestión de productos 
 
 ---
 

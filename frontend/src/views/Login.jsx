@@ -17,17 +17,17 @@ const Login = () => {
       });   
       const { token, user } = response.data;
 
-    // Guardar token y datos en localStorage si querés mantener la sesión
+    // Guarda token y datos en localStorage 
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(user));
 
       navigate('/menu');
     } catch (error) {
       if (error.response) {
-        // Error del servidor (ej: credenciales inválidas)
+        // Error del servidor 
         alert(error.response.data.error || 'Error de autenticación');
       } else {
-        // Error de red u otro
+        // Error de red 
         alert('Error de conexión con el servidor');
       }
     }

@@ -9,6 +9,7 @@ const Menu = () => {
     <div className="menu-container">
       <div className="menu-box">
         <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
+        <button onClick={() => navigate('/ventas')}>Gestión de Ventas</button>
         <button onClick={() => navigate('/')}>Salir</button>
       </div>
       <div className="footer">

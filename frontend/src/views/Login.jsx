@@ -9,6 +9,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -28,7 +29,12 @@ const Login = () => {
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(user));
 
-      navigate('/menu');
+      // Redirige según el rol
+      if (user.rol === 'admin') {
+          navigate('/menuadmin'); 
+      } else {
+          navigate('/menu');
+      }
     } catch (error) {
       if (error.response) {
         // Error del servidor 

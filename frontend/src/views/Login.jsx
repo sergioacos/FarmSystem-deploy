@@ -8,23 +8,41 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verificar que los campos no estén vacíos
     if (!email || !password) {
       setErrorMessage('Por favor, completa todos los campos.');
       return;
     }
 
-    // Verificar credenciales
-    if (email === 'admin@gmail.com' && password === 'admin123') {
-      // Redirigir al menú que corresponda
-      navigate('/menuadmin');
-    } else if (email === 'vendedor@gmail.com' && password === 'vendedor123') {
-      navigate('/menu');
-    } else {
-      setErrorMessage('Credenciales incorrectas');
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }), 
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userRole', data.user.rol); 
+
+        // Redirige según el rol
+        if (data.user.rol === 'admin') {
+          navigate('/menuadmin'); 
+        } else {
+          navigate('/menu');
+        }
+      } else {
+        setErrorMessage(data.message || 'Credenciales incorrectas');
+      }
+    } catch (error) {
+      console.error('Error en el login:', error);
+      setErrorMessage('Hubo un error al intentar iniciar sesión.');
     }
   };
 

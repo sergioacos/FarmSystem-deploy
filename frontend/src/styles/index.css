@@ -10,3 +10,25 @@ body {
 button {
   cursor: pointer;
 }
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+
+.footer p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.footer p span {
+  font-style: italic;
+}

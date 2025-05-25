@@ -3,9 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/Productos.css";
 
-const Productos = () => {
+const Ventas = () => {
   const [productos, setProductos] = useState([]);
   const [filtro, setFiltro] = useState("");
+  const [carrito, setCarrito] = useState([]);
+  const [total, setTotal] = useState(0);
+
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,16 +26,64 @@ const Productos = () => {
     fetchProductos();
   }, []);
 
+  useEffect(() => {
+  const nuevoTotal = carrito.reduce(
+    (acc, item) => acc + item.cantidad * item.precio_unitario,
+    0
+  );
+  setTotal(nuevoTotal);
+}, [carrito]);
+
+
   // Filtrar cuando se dan coincidencias en el inicio de alguna palabra
   const productosFiltrados = productos.filter((producto) => {
     const regex = new RegExp(`\\b${filtro.toLowerCase()}`, "i"); 
     return regex.test(producto.nombre.toLowerCase());
   });
 
+  const agregarAlCarrito = (producto) => {
+  const cantidad = parseInt(prompt(`¿Cuántas unidades de ${producto.nombre}?`), 10);
+  if (isNaN(cantidad) || cantidad <= 0) return;
+
+  const item = {
+    producto_id: producto._id,
+    nombre: producto.nombre,
+    cantidad,
+    precio_unitario: producto.precio // puedes permitir que el usuario edite esto si querés
+  };
+
+  setCarrito([...carrito, item]);
+};
+
+const enviarVenta = async () => {
+  if (carrito.length === 0) {
+    alert("El carrito está vacío.");
+    return;
+  }
+
+//   const total = carrito.reduce((acc, item) => acc + (item.cantidad * item.precio_unitario), 0);
+
+  const nuevaVenta = {
+    productos: carrito,
+    total,
+    tipo_pago: "efectivo" // o permitir seleccionar desde un <select>
+  };
+
+  try {
+    await axios.post("http://localhost:5000/api/venta", nuevaVenta);
+    alert("Venta registrada con éxito.");
+    setCarrito([]);
+  } catch (error) {
+    console.error("Error al registrar la venta:", error);
+  }
+};
+
+
+
   return (
     <div className="productos-container">
       <div className="productos-box">
-        <h2>Gestión de Productos</h2>
+        <h2>Gestión de Ventas</h2>
         {/* Filtro por nombre */}
         <div className="search-container">
           <input
@@ -52,6 +105,8 @@ const Productos = () => {
                   <p>{producto.laboratorio}</p>
                   <p><strong>${producto.precio}</strong></p>
                   <p>{producto.stock_actual} en stock</p>
+                  <button onClick={() => agregarAlCarrito(producto)}>Comprar</button>
+
                 </div>
               </div>
             ))}
@@ -65,11 +120,38 @@ const Productos = () => {
         </button>
       </div>
 
+
+      <div className="carrito-box">
+  <h3>Productos en la venta:</h3>
+  {carrito.length === 0 ? (
+    <p>No hay productos agregados.</p>
+  ) : (
+    <>
+      <ul>
+        {carrito.map((item, index) => (
+          <li key={index}>
+            Producto: {item.nombre} - Cantidad: {item.cantidad} - Precio unitario: ${item.precio_unitario}
+          </li>
+        ))}
+      </ul>
+      <p><strong>Total: ${total.toFixed(2)}</strong></p>
+      <button onClick={enviarVenta}>Confirmar Venta</button>
+    </>
+  )}
+</div>
+
+
       <div className="footer">
         <p>© 2025 Invexa</p>
       </div>
+
+      <br />
+      <br />
+      <br />
     </div>
+
+    
   );
 };
 
-export default Productos;
+export default Ventas;

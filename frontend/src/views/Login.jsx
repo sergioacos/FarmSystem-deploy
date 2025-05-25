@@ -6,11 +6,18 @@ import '../styles/Login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     try {
+    setErrorMessage('');
+
+    if (!email.trim() || !password.trim()) {
+      setErrorMessage('Email y contraseña son obligatorios');
+      return;
+    }
+    try {
       const response = await axios.post('http://localhost:5001/api/auth/login', {
         email,
         password,
@@ -25,10 +32,10 @@ const Login = () => {
     } catch (error) {
       if (error.response) {
         // Error del servidor 
-        alert(error.response.data.error || 'Error de autenticación');
+        setErrorMessage(error.response.data.error || 'Error de autenticación');
       } else {
         // Error de red 
-        alert('Error de conexión con el servidor');
+        setErrorMessage('Error de conexión con el servidor');
       }
     }
   };
@@ -37,6 +44,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-box">
         <h2>Iniciar Sesión</h2>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <form onSubmit={handleSubmit}>
           <label>Email:</label>
           <input

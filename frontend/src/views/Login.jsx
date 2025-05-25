@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Login.css';
 
 const Login = () => {
@@ -7,9 +8,29 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/menu');
+     try {
+      const response = await axios.post('http://localhost:5001/api/auth/login', {
+        email,
+        password,
+      });   
+      const { token, user } = response.data;
+
+    // Guardar token y datos en localStorage si querés mantener la sesión
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(user));
+
+      navigate('/menu');
+    } catch (error) {
+      if (error.response) {
+        // Error del servidor (ej: credenciales inválidas)
+        alert(error.response.data.error || 'Error de autenticación');
+      } else {
+        // Error de red u otro
+        alert('Error de conexión con el servidor');
+      }
+    }
   };
 
   return (

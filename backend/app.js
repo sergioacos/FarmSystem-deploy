@@ -15,9 +15,11 @@ app.use(express.json()); // Permite leer JSON en los requests
 // Rutas
 const productoRoutes = require('./routes/producto.routes');
 const categoriaRoutes = require('./routes/categoria.routes');
+const ventaRoutes = require('./routes/venta.routes')
 
 app.use('/api/producto', productoRoutes);
-app.use('/api/categoria', categoriaRoutes)
+app.use('/api/categoria', categoriaRoutes);
+app.use('/api/venta', ventaRoutes);
 
 app.use("/api/usuarios", userRoutes);
 app.use("/api/auth", authRoutes);

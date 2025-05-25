@@ -8,9 +8,11 @@ const Menu = () => {
   return (
     <div className="menu-container">
       <div className="menu-box">
-        <h2>Menú Principal</h2>
         <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
         <button onClick={() => navigate('/')}>Salir</button>
+      </div>
+      <div className="footer">
+        <p>© 2025 Invexa</p>
       </div>
     </div>
   );

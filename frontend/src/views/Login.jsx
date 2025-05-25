@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Login.css';
 
 const Login = () => {
@@ -8,41 +9,40 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
 
-    if (!email || !password) {
-      setErrorMessage('Por favor, completa todos los campos.');
+    if (!email.trim() || !password.trim()) {
+      setErrorMessage('Email y contraseña son obligatorios');
       return;
     }
-
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }), 
-      });
+      const response = await axios.post('http://localhost:5001/api/auth/login', {
+        email,
+        password,
+      });   
+      const { token, user } = response.data;
 
-      const data = await response.json();
+    // Guarda token y datos en localStorage 
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(user));
 
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userRole', data.user.rol); 
-
-        // Redirige según el rol
-        if (data.user.rol === 'admin') {
+      // Redirige según el rol
+      if (user.rol === 'admin') {
           navigate('/menuadmin'); 
-        } else {
-          navigate('/menu');
-        }
       } else {
-        setErrorMessage(data.message || 'Credenciales incorrectas');
+          navigate('/menu');
       }
     } catch (error) {
-      console.error('Error en el login:', error);
-      setErrorMessage('Hubo un error al intentar iniciar sesión.');
+      if (error.response) {
+        // Error del servidor 
+        setErrorMessage(error.response.data.error || 'Error de autenticación');
+      } else {
+        // Error de red 
+        setErrorMessage('Error de conexión con el servidor');
+      }
     }
   };
 

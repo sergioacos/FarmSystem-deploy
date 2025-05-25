@@ -5,7 +5,6 @@ const login = async (req, res) => {
 
   const { email, password } = req.body;
   try {    
-    //Acá cambié donde decía User.findOne por Usuario.findOne
     const user = await Usuario.findOne({ email });
 
     if (!user) {
@@ -38,7 +37,7 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el servidor",error: error.message || error.toString() });
   }
 };
 

@@ -24,7 +24,7 @@ Una aplicación web para gestionar un sistema de farmacia en línea con funciona
   - Gestión de usuarios (para administradores).
 
 - **Pruebas y Documentación**:
-  - Pruebas unitarias e integración con **Jest** y **Supertest**.
+  - Pruebas automatizadas para verificar el comportamiento de la API con **Postman**.
   - Documentación detallada de la API para fácil uso y validación.
 
 ---

@@ -9,7 +9,7 @@ const MenuAdmin = () => {
     <>
       <div className="menu-container">
         <div className="menu-box">
-          <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
+          <button onClick={() => navigate('/productosAdmin')}>Gestión de Productos</button>
           <button onClick={() => navigate('/usuarios')}>Gestión de Usuarios</button>
           <button onClick={() => navigate('/')}>Salir</button>
         </div>

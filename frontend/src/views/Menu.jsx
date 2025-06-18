@@ -5,17 +5,18 @@ import '../styles/Menu.css';
 
 const Menu = () => {
   const navigate = useNavigate();
-  const [alertaStock, setAlertaStock] = useState(null);
+  const [alertaStock, setAlertaStock] = useState(false);
+  const [productosBajoStock, setProductosBajoStock] = useState([]);
+  const [mostrarLista, setMostrarLista] = useState(false);
 
   useEffect(() => {
     const chequearStock = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/producto`);
         const productos = response.data;
-        const hayBajoStock = productos.some(
-          (p) => p.stock_actual < p.stock_minimo
-        );
-        setAlertaStock(hayBajoStock);
+        const bajos = productos.filter(p => p.stock_actual < p.stock_minimo);
+        setProductosBajoStock(bajos);
+        setAlertaStock(bajos.length > 0);
       } catch (error) {
         console.error('Error al cargar productos:', error);
         setAlertaStock(false);
@@ -24,23 +25,42 @@ const Menu = () => {
     chequearStock();
   }, []);
 
-  const handleClick = () => {
+  const toggleLista = () => {
     if (alertaStock) {
-      navigate('/productos');
+      setMostrarLista(!mostrarLista);
     }
+  };
+
+  const irProductos = () => {
+    navigate('/productos');
   };
 
   return (
     <div className="menu-container" style={{ position: 'relative' }}>
-      {alertaStock !== null && (
-        <div
-          className={`alerta-stock ${alertaStock ? 'alerta' : 'ok'}`}
-          title={alertaStock ? 'Productos con stock crítico' : 'Stock OK'}
-          onClick={handleClick}
-        >
-          {alertaStock
-            ? 'Stock crítico de productos'
-            : 'No hay productos con stock crítico'}
+      <div
+        className={`alerta-stock ${alertaStock ? 'alerta' : 'ok'}`}
+        title={alertaStock ? 'Productos con stock crítico' : 'Stock OK'}
+        onClick={toggleLista}
+        style={{ cursor: alertaStock ? 'pointer' : 'default' }}
+      >
+        {alertaStock
+          ? 'Stock crítico de productos ▼'
+          : 'No hay productos con stock crítico'}
+      </div>
+
+      {mostrarLista && alertaStock && (
+        <div className="lista-stock-bajo">
+          <ul style={{ margin: 0, paddingLeft: '16px' }}>
+            {productosBajoStock.map((producto) => (
+              <li key={producto._id} className="producto-alerta">
+                <strong>{producto.nombre}</strong> ({producto.laboratorio})<br />
+                <small>Stock: {producto.stock_actual} / Mínimo: {producto.stock_minimo}</small>
+              </li>
+            ))}
+          </ul>
+          <button className="ver-todo-btn" onClick={irProductos}>
+            Ver todos los productos
+          </button>
         </div>
       )}
 

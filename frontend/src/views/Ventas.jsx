@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../styles/Productos.css";
+import "../styles/Ventas.css";
 
 const Ventas = () => {
   const [productos, setProductos] = useState([]);
@@ -119,6 +119,12 @@ const eliminarDelCarrito = (index) => {
   return (
     <div className="productos-container">
       <div className="productos-box">
+        <button
+          className="agregar-button"
+          onClick={() => navigate("/historialVentas")}
+        >
+          Ver Historial de Ventas
+        </button>
         <h2>Gestión de Ventas</h2>
         {/* Filtro por nombre */}
         <div className="search-container">
@@ -151,7 +157,7 @@ const eliminarDelCarrito = (index) => {
           <p>No hay productos disponibles o no coinciden con la búsqueda.</p>
         )}
 
-        <button className="back-button" onClick={() => navigate('/menuadmin')}>
+        <button className="back-button" onClick={() => navigate('/menu')}>
           Volver al Menú Principal
         </button>
       </div>

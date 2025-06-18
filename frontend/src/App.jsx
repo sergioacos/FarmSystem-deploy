@@ -8,7 +8,8 @@ import Productos from './views/Productos';
 import ProductosAdmin from './views/ProductosAdmin';
 import NuevoProducto from './views/NuevoProducto';
 import Usuarios from './views/Usuarios';
-import Ventas from './views/Venta';
+import HistorialVentas from './views/HistorialVentas';
+import Ventas from './views/Ventas';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/productosadmin" element={<ProductosAdmin />} />
         <Route path="/productos/nuevo" element={<NuevoProducto />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/historialVentas" element={<HistorialVentas />} />
         <Route path="/ventas" element={<Ventas />} />
       </Routes>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-const Usuario = require("../models/user");
+const Usuario = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {

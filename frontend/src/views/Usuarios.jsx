@@ -11,7 +11,11 @@ const Usuarios = () => {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usuarios`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usuarios`,{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        });
         setUsuarios(response.data);
       } catch (error) {
         console.error("Error al obtener los usuarios:", error);

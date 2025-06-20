@@ -22,7 +22,7 @@ app.use('/api/producto', productoRoutes);
 app.use('/api/categoria', categoriaRoutes);
 app.use('/api/venta', ventaRoutes);
 app.use('/api/recetaElectronica', recetaRoutes)
-
+app.use('/api',require('./routes/auth.validate'))
 app.use("/api/usuarios", userRoutes);
 app.use("/api/auth", authRoutes);
 module.exports = app;

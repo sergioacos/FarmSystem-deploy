@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import '../styles/Login.css';
 
@@ -8,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-
+  const { login }= useAuth();
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,10 +25,11 @@ const Login = () => {
         password,
       });   
       const { token, user } = response.data;
+      login(token, user);
 
     // Guarda token y datos en localStorage 
-    localStorage.setItem('token', token);
-    localStorage.setItem('usuario', JSON.stringify(user));
+    //localStorage.setItem('token', token);
+    //localStorage.setItem('usuario', JSON.stringify(user));
 
       // Redirige según el rol
       if (user.rol === 'admin') {
@@ -72,5 +74,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;

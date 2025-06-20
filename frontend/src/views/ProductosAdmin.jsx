@@ -43,6 +43,12 @@ const Productos = () => {
   return (
     <div className="productos-container">
       <div className="productos-box">
+        <button
+            className="agregar-button"
+            onClick={() => navigate('/productos/nuevo')}
+        >
+            Agregar nuevo producto
+        </button>
         <h2>Gestión de Productos</h2>
 
         {/* Filtro por nombre */}
@@ -89,7 +95,7 @@ const Productos = () => {
           <p>No hay productos disponibles o no coinciden con los filtros.</p>
         )}
 
-        <button className="back-button" onClick={() => navigate('/menu')}>
+        <button className="back-button" onClick={() => navigate('/menuAdmin')}>
           Volver al Menú Principal
         </button>
       </div>

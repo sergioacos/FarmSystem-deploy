@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "../styles/NuevoUsuario.css";
 
 const NuevoUsuario = () => {
@@ -10,21 +11,30 @@ const NuevoUsuario = () => {
   const [rol, setRol] = useState("usuario");
   const [estado, setEstado] = useState("activo");
   const navigate = useNavigate();
+  const { token } = useAuth(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/usuarios`, {
-        nombre,
-        email,
-        password,
-        rol,
-        estado,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/usuarios`,
+        {
+          nombre,
+          email,
+          password,
+          rol,
+          estado,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       alert("Usuario creado con éxito");
       navigate("/usuarios");
     } catch (error) {
-      console.error("Error al crear usuario:", error);
+      console.error("Error al crear usuario:", error.response?.data || error.message);
       alert("Error al crear usuario");
     }
   };

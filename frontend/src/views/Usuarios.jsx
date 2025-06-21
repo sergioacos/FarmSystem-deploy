@@ -49,8 +49,15 @@ const Usuarios = () => {
   return (
     <div className="usuarios-container">
       <div className="usuarios-box">
+        <div className="header-box">
+          <button
+            className="add-button"
+            onClick={() => navigate("/usuarios/nuevo")}
+          >
+            Agregar nuevo usuario
+          </button>
+        </div>
         <h2>Gestión de Usuarios</h2>
-
         <div className="search-container">
           <input
             type="text"

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import '../styles/Menu.css';
 
 const Menu = () => {
   const navigate = useNavigate();
   const [alertaStock, setAlertaStock] = useState(false);
+  const { logout } = useAuth(); 
   const [productosBajoStock, setProductosBajoStock] = useState([]);
   const [mostrarLista, setMostrarLista] = useState(false);
 
@@ -67,7 +69,7 @@ const Menu = () => {
       <div className="menu-box">
         <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
         <button onClick={() => navigate('/ventas')}>Gestión de Ventas</button>
-        <button onClick={() => navigate('/')}>Salir</button>
+        <button onClick={logout}>Salir</button>
       </div>
 
       <div className="footer">

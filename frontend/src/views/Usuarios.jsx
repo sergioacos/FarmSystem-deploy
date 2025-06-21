@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
 import "../styles/Usuarios.css";
 
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [filtro, setFiltro] = useState("");
   const navigate = useNavigate();
+  const { token } = useAuth(); 
 
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usuarios`,{
-          headers:{
-            Authorization: `Bearer ${token}`
-          }
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usuarios`, {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
         });
         setUsuarios(response.data);
       } catch (error) {
-        console.error("Error al obtener los usuarios:", error);
+        console.error("Error al obtener los usuarios:", error.response?.data || error.message);
       }
     };
 
     fetchUsuarios();
-  }, []);
+  }, [token]);
 
   const usuariosFiltrados = usuarios.filter((usuario) => {
     const regex = new RegExp(`\\b${filtro.toLowerCase()}`, "i");
@@ -37,10 +39,14 @@ const Usuarios = () => {
   const handleEliminar = async (id) => {
     if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
       try {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/usuarios/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/usuarios/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
         setUsuarios(usuarios.filter((u) => u._id !== id));
       } catch (error) {
-        console.error("Error al eliminar el usuario:", error);
+        console.error("Error al eliminar el usuario:", error.response?.data || error.message);
         alert("Hubo un problema al eliminar el usuario.");
       }
     }
@@ -49,8 +55,15 @@ const Usuarios = () => {
   return (
     <div className="usuarios-container">
       <div className="usuarios-box">
+        <div className="header-box">
+          <button
+            className="add-button"
+            onClick={() => navigate("/usuarios/nuevo")}
+          >
+            Agregar nuevo usuario
+          </button>
+        </div>
         <h2>Gestión de Usuarios</h2>
-
         <div className="search-container">
           <input
             type="text"

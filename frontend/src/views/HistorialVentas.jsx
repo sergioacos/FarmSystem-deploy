@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 import "../styles/Ventas.css";
+import { useAuth } from "../context/AuthContext"
 
 const HistorialVentas = () => {
   const [ventas, setVentas] = useState([]);
   const navigate = useNavigate();
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchVentas = async () => {
@@ -33,9 +36,18 @@ const HistorialVentas = () => {
     <div className="productos-container">
       <div className="productos-box">
         <h2>Historial de Ventas</h2>
-        <button className="agregar-button" onClick={() => navigate("/ventas")}>
+        {/* <button className="agregar-button" onClick={() => navigate("/ventas")}>
           Volver a Ventas
-        </button>
+        </button> */}
+        {user?.rol === "admin" ? (
+          <button className="agregar-button" onClick={() => navigate("/menuAdmin")}>
+            Volver
+          </button>
+          ) : (
+          <button className="agregar-button" onClick={() => navigate("/ventas")}>
+          Volver a Ventas
+          </button>
+)}
 
         {ventas.length === 0 ? (
           <p>No hay ventas registradas.</p>

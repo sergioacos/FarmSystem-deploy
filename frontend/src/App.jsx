@@ -14,6 +14,8 @@ import Ventas from './views/Ventas';
 import Unauthorized from "./views/Unauthorized";
 import ProtectedRoute from './components/ProtectedRoute';
 import VentasObraSocial from './views/VentasOS';
+import EditarUsuario from './views/EditarUsuario';
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path="/productos/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoProducto /></ProtectedRoute>} />
           <Route path="/usuarios" element={<ProtectedRoute requiredRole="admin"><Usuarios /></ProtectedRoute>} />
           <Route path="/usuarios/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoUsuario /></ProtectedRoute>} />
+          <Route path="/usuarios/editar/:id" element={<ProtectedRoute requiredRole="admin"><EditarUsuario /></ProtectedRoute>} />
           <Route path="/historialVentas" element={<ProtectedRoute requiredRoles={['admin', 'usuario']}><HistorialVentas /></ProtectedRoute>} />
           <Route path="/ventas" element={<ProtectedRoute requiredRole="usuario"><Ventas /></ProtectedRoute>} />
           <Route path="/ventasOS" element={<ProtectedRoute requiredRole="usuario"><VentasObraSocial /></ProtectedRoute>} />

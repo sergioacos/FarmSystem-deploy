@@ -13,6 +13,7 @@ import HistorialVentas from './views/HistorialVentas';
 import Ventas from './views/Ventas';
 import Unauthorized from "./views/Unauthorized";
 import ProtectedRoute from './components/ProtectedRoute';
+import VentasObraSocial from './views/VentasOS';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/usuarios/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoUsuario /></ProtectedRoute>} />
           <Route path="/historialVentas" element={<ProtectedRoute requiredRole="usuario"><HistorialVentas /></ProtectedRoute>} />
           <Route path="/ventas" element={<ProtectedRoute requiredRole="usuario"><Ventas /></ProtectedRoute>} />
+          <Route path="/ventasOS" element={<ProtectedRoute requiredRole="usuario"><VentasObraSocial /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

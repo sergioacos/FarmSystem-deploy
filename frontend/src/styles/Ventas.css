@@ -119,8 +119,8 @@
 .tabla-receta th,
 .tabla-receta td {
   border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
+  /* padding: 8px; */
+  text-align: center;
 }
 
 .tabla-receta th {
@@ -128,10 +128,13 @@
 }
 
 .tabla-receta button {
-  padding: 5px 10px;
+  padding: 0px 6px;
   cursor: pointer;
 }
 
+.carrito-box{
+  margin-bottom: 25px;
+}
 
 
 

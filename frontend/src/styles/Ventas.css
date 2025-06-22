@@ -51,6 +51,10 @@
   transform: translateY(-2px);
 }
 
+.button-ventasOS {
+  margin-top: 40px;
+}
+
 .ventas-lista {
   text-align: left;
   margin-top: 30px;

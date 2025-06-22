@@ -29,7 +29,7 @@ function App() {
           <Route path="/productos/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoProducto /></ProtectedRoute>} />
           <Route path="/usuarios" element={<ProtectedRoute requiredRole="admin"><Usuarios /></ProtectedRoute>} />
           <Route path="/usuarios/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoUsuario /></ProtectedRoute>} />
-          <Route path="/historialVentas" element={<ProtectedRoute requiredRole="usuario"><HistorialVentas /></ProtectedRoute>} />
+          <Route path="/historialVentas" element={<ProtectedRoute requiredRoles={['admin', 'usuario']}><HistorialVentas /></ProtectedRoute>} />
           <Route path="/ventas" element={<ProtectedRoute requiredRole="usuario"><Ventas /></ProtectedRoute>} />
           <Route path="/ventasOS" element={<ProtectedRoute requiredRole="usuario"><VentasObraSocial /></ProtectedRoute>} />
         </Routes>

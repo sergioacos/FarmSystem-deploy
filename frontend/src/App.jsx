@@ -11,6 +11,7 @@ import Usuarios from './views/Usuarios';
 import HistorialVentas from './views/HistorialVentas';
 import Ventas from './views/Ventas';
 import ProtectedRoute from './components/ProtectedRoute';
+import VentasObraSocial from './views/VentasOS';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/usuarios" element={<ProtectedRoute><Usuarios /></ProtectedRoute>} />
           <Route path="/historialVentas" element={<ProtectedRoute><HistorialVentas /></ProtectedRoute>} />
           <Route path="/ventas" element={<ProtectedRoute><Ventas /></ProtectedRoute>} />
+          <Route path="/ventasOS" element={<ProtectedRoute><VentasObraSocial /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

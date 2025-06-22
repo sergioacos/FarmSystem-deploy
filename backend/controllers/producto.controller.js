@@ -29,3 +29,27 @@ exports.crear = async (req, res) => {
   }
   
 };
+
+// Buscar un producto por nombre (exacto o parcial)
+exports.buscarPorNombre = async (req, res) => {
+  const { nombre } = req.query;
+
+  if (!nombre) {
+    return res.status(400).json({ mensaje: "Falta el parámetro 'nombre'" });
+  }
+
+  try {
+    // Búsqueda insensible a mayúsculas/minúsculas y con coincidencia parcial
+    const regex = new RegExp(nombre, 'i');
+    const productos = await Producto.find({ nombre: { $regex: regex } });
+
+    if (productos.length === 0) {
+      return res.status(404).json({ mensaje: "No se encontró ningún producto con ese nombre" });
+    }
+
+    res.json(productos);
+  } catch (error) {
+    console.error("Error al buscar producto por nombre:", error);
+    res.status(500).json({ mensaje: "Error al buscar producto" });
+  }
+};

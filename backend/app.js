@@ -17,6 +17,7 @@ const productoRoutes = require('./routes/producto.routes');
 const categoriaRoutes = require('./routes/categoria.routes');
 const ventaRoutes = require('./routes/venta.routes')
 const recetaRoutes = require('./routes/recetaElectronica.routes')
+const reporteRoutes = require("./routes/reporte.routes");
 
 app.use('/api/producto', productoRoutes);
 app.use('/api/categoria', categoriaRoutes);
@@ -25,4 +26,5 @@ app.use('/api/recetaElectronica', recetaRoutes)
 app.use('/api',require('./routes/auth.validate'))
 app.use("/api/usuarios", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api", reporteRoutes);
 module.exports = app;

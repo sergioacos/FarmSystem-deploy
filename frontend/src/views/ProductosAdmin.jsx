@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/Productos.css";
 
-const Productos = () => {
+const ProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtro, setFiltro] = useState("");
@@ -44,10 +44,10 @@ const Productos = () => {
     <div className="productos-container">
       <div className="productos-box">
         <button
-            className="agregar-button"
-            onClick={() => navigate('/productos/nuevo')}
+          className="agregar-button"
+          onClick={() => navigate("/productos/nuevo")}
         >
-            Agregar nuevo producto
+          Agregar nuevo producto
         </button>
         <h2>Gestión de Productos</h2>
 
@@ -71,7 +71,9 @@ const Productos = () => {
           >
             <option value="">Todas las categorías</option>
             {categorias.map((cat) => (
-              <option key={cat._id} value={cat._id}>{cat.nombre}</option>
+              <option key={cat._id} value={cat._id}>
+                {cat.nombre}
+              </option>
             ))}
           </select>
         </div>
@@ -84,10 +86,22 @@ const Productos = () => {
                 <div className="producto-details">
                   <h3>{producto.nombre}</h3>
                   <p>{producto.laboratorio}</p>
-                  <p><strong>${producto.precio}</strong></p>
+                  <p>
+                    <strong>${producto.precio}</strong>
+                  </p>
                   <p>{producto.stock_actual} en stock</p>
-                  <p><em>{obtenerNombreCategoria(producto.categoria)}</em></p> {/* Mostrar nombre  */}
+                  <p>
+                    <em>{obtenerNombreCategoria(producto.categoria)}</em>
+                  </p>
                 </div>
+
+                {/* Botón Editar */}
+                <button
+                  className="editar-button"
+                  onClick={() => navigate(`/productos/editar/${producto._id}`)}
+                >
+                  Editar
+                </button>
               </div>
             ))}
           </div>
@@ -95,7 +109,7 @@ const Productos = () => {
           <p>No hay productos disponibles o no coinciden con los filtros.</p>
         )}
 
-        <button className="back-button" onClick={() => navigate('/menuAdmin')}>
+        <button className="back-button" onClick={() => navigate("/menuAdmin")}>
           Volver al Menú Principal
         </button>
       </div>
@@ -107,4 +121,4 @@ const Productos = () => {
   );
 };
 
-export default Productos;
+export default ProductosAdmin;

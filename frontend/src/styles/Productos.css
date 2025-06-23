@@ -1,17 +1,18 @@
+/* Contenedor principal */
 .productos-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: space-between; 
+  justify-content: space-between;
   background-color: #f4f4f9;
   padding: 20px;
 }
 
+/* Caja de productos */
 .productos-box {
-  max-width: 100%; 
-  width: 90vw;     
-  min-width: 700px; 
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto;  
   padding: 40px;
   background-color: #fff;
   border-radius: 12px;
@@ -20,6 +21,7 @@
   text-align: center;
 }
 
+/* Título */
 .productos-box h2 {
   margin-bottom: 30px;
   margin-top: 60px;
@@ -30,6 +32,7 @@
   text-transform: uppercase;
 }
 
+/* Contenedor de búsqueda */
 .search-container {
   margin-bottom: 25px;
 }
@@ -49,17 +52,19 @@
   border-color: #26a69a;
 }
 
+/* Contenedor de productos */
 .productos-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center; 
   gap: 30px;
   margin-top: 30px;
 }
 
+/* Estilo de la tarjeta */
 .producto-card {
   background-color: #fff;
-  width: 250px;
+  width: 240px; 
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
@@ -92,6 +97,7 @@
   margin-top: 15px;
 }
 
+/* Header de productos */
 .header-productos {
   display: flex;
   justify-content: space-between;
@@ -99,6 +105,7 @@
   margin-bottom: 30px;
 }
 
+/* Botón agregar */
 .agregar-button {
   position: absolute;
   top: 20px;
@@ -120,6 +127,7 @@
   transform: translateY(-2px);
 }
 
+/* Botón de volver */
 .back-button {
   padding: 12px 24px;
   background-color: #26a69a; 
@@ -136,6 +144,22 @@
   background-color: #00796b;
 }
 
+/* Botón de editar */
+.editar-button {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.editar-button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 30px;

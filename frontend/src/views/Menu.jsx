@@ -6,31 +6,57 @@ import '../styles/Menu.css';
 
 const Menu = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [alertaStock, setAlertaStock] = useState(false);
-  const { logout } = useAuth(); 
+  const [alertaVentas, setAlertaVentas] = useState(false);  
   const [productosBajoStock, setProductosBajoStock] = useState([]);
-  const [mostrarLista, setMostrarLista] = useState(false);
+  const [productosExcesivos, setProductosExcesivos] = useState([]);
+  const [mostrarListaStock, setMostrarListaStock] = useState(false); 
+  const [mostrarListaVentas, setMostrarListaVentas] = useState(false); 
 
+  // Estados de carga
+  const [loading, setLoading] = useState(true);
+  const [loadingVentas, setLoadingVentas] = useState(true);
+
+  // useEffect para verificar productos con stock bajo y ventas inusuales en paralelo
   useEffect(() => {
-    const chequearStock = async () => {
+    const fetchStockAndVentas = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/producto`);
-        const productos = response.data;
+        // Cargar stock
+        const stockResponse = axios.get(`${import.meta.env.VITE_API_URL}/producto`);
+        // Cargar ventas inusuales
+        const ventasResponse = axios.get(`${import.meta.env.VITE_API_URL}/venta/ultimas-24-horas`);
+
+        const [stockData, ventasData] = await Promise.all([stockResponse, ventasResponse]);
+
+        // Procesar datos de stock
+        const productos = stockData.data;
         const bajos = productos.filter(p => p.stock_actual < p.stock_minimo);
         setProductosBajoStock(bajos);
         setAlertaStock(bajos.length > 0);
+
+        // Procesar datos de ventas
+        const { alerta, productos: productosVentas } = ventasData.data;
+        setProductosExcesivos(productosVentas);
+        setAlertaVentas(alerta);
+
       } catch (error) {
-        console.error('Error al cargar productos:', error);
-        setAlertaStock(false);
+        console.error('Error al cargar datos:', error);
+      } finally {
+        setLoading(false); // Finaliza la carga
+        setLoadingVentas(false); // Finaliza la carga de ventas inusuales
       }
     };
-    chequearStock();
-  }, []);
 
-  const toggleLista = () => {
-    if (alertaStock) {
-      setMostrarLista(!mostrarLista);
-    }
+    fetchStockAndVentas();
+  }, []); 
+
+  const toggleListaStock = () => {
+    setMostrarListaStock(!mostrarListaStock); 
+  };
+
+  const toggleListaVentas = () => {
+    setMostrarListaVentas(!mostrarListaVentas); 
   };
 
   const irProductos = () => {
@@ -40,9 +66,37 @@ const Menu = () => {
   return (
     <div className="menu-container" style={{ position: 'relative' }}>
       <div
+        className={`alerta-ventas ${alertaVentas ? 'alerta' : 'ok'}`}
+        title={alertaVentas ? 'Ventas inusuales de productos en las últimas 24 hs.' : 'Ventas dentro del rango esperado'}
+        style={{
+          cursor: alertaVentas ? 'pointer' : 'default',
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          padding: '12px 18px',
+          backgroundColor: alertaVentas ? '#e53935' : '#006f2e',
+          color: 'white',
+          borderRadius: '8px',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+          fontSize: '14px',
+          fontWeight: '500',
+          fontFamily: "'Poppins', sans-serif",
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={toggleListaVentas}  
+      >
+        {loadingVentas
+          ? 'Cargando ventas...'
+          : alertaVentas
+          ? 'Cantidades inusuales de productos vendidos en las últimas 24 hs. ▼'
+          : 'Ventas dentro del rango esperado'}
+      </div>
+
+      {/* Alerta de stock bajo */}
+      <div
         className={`alerta-stock ${alertaStock ? 'alerta' : 'ok'}`}
         title={alertaStock ? 'Productos con stock crítico' : 'Stock OK'}
-        onClick={toggleLista}
+        onClick={toggleListaStock}
         style={{ cursor: alertaStock ? 'pointer' : 'default' }}
       >
         {alertaStock
@@ -50,7 +104,22 @@ const Menu = () => {
           : 'No hay productos con stock crítico'}
       </div>
 
-      {mostrarLista && alertaStock && (
+      {/* Lista de productos con ventas inusuales */}
+      {mostrarListaVentas && alertaVentas && (
+        <div className="lista-ventas-excesivas">
+          <ul style={{ margin: 0, paddingLeft: '16px' }}>
+            {productosExcesivos.map((producto) => (
+              <li key={producto.nombre} className="producto-alerta">
+                <strong>{producto.nombre}</strong><br />
+                <small>Cantidad Vendida: {producto.cantidadVendida} / Umbral: {producto.umbral}</small>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Lista de productos con stock bajo */}
+      {mostrarListaStock && alertaStock && (
         <div className="lista-stock-bajo">
           <ul style={{ margin: 0, paddingLeft: '16px' }}>
             {productosBajoStock.map((producto) => (

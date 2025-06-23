@@ -1,0 +1,145 @@
+/* Contenedor principal */
+.productos-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: #f4f4f9;
+  padding: 20px;
+}
+
+.productos-box {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 100%;
+  max-width: 600px;  
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Título */
+.productos-box h2 {
+  margin-bottom: 25px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #26a69a;
+  text-transform: uppercase;
+}
+
+.formulario-producto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px; 
+}
+
+.formulario-producto input,
+.formulario-producto select {
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #333;
+  background-color: #fff;
+  width: 80%; 
+  max-width: 400px; 
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.formulario-producto input::placeholder {
+  color: #888;
+  font-weight: 500;
+}
+
+.formulario-producto input:focus,
+.formulario-producto select:focus {
+  outline: none;
+  border-color: #26a69a;
+}
+
+.botones-formulario {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 25px;
+  width: 80%;
+  max-width: 400px;
+}
+
+.botones-formulario button {
+  padding: 12px 24px;
+  font-size: 14px;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Botón Guardar */
+.botones-formulario .guardar-button {
+  background-color: #26a69a;
+  color: white;
+}
+
+.botones-formulario .guardar-button:hover {
+  background-color: #00796b;
+}
+
+/* Botón Cancelar */
+.botones-formulario .cancelar-button {
+  background-color: #d9534f;
+  color: white;
+}
+
+.botones-formulario .cancelar-button:hover {
+  background-color: #c9302c;
+}
+
+/* Mensaje de error */
+.error {
+  color: #d32f2f;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.checkbox-alta-rotacion {
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+  margin-top: 10px;
+}
+
+.checkbox-alta-rotacion input[type="checkbox"] {
+  margin: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checkbox-alta-rotacion label {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+  margin: 0;
+  user-select: none;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #777;
+}

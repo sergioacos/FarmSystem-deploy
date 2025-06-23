@@ -15,6 +15,7 @@ import Unauthorized from "./views/Unauthorized";
 import ProtectedRoute from './components/ProtectedRoute';
 import VentasObraSocial from './views/VentasOS';
 import EditarUsuario from './views/EditarUsuario';
+import EditarProducto from './views/EditarProducto';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/productos" element={<ProtectedRoute requiredRole="usuario"><Productos /></ProtectedRoute>} />
           <Route path="/productosadmin" element={<ProtectedRoute requiredRole="admin"><ProductosAdmin /></ProtectedRoute>} />
           <Route path="/productos/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoProducto /></ProtectedRoute>} />
+          <Route path="/productos/editar/:id" element={<ProtectedRoute requiredRole="admin"><EditarProducto /></ProtectedRoute>} />
           <Route path="/usuarios" element={<ProtectedRoute requiredRole="admin"><Usuarios /></ProtectedRoute>} />
           <Route path="/usuarios/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoUsuario /></ProtectedRoute>} />
           <Route path="/usuarios/editar/:id" element={<ProtectedRoute requiredRole="admin"><EditarUsuario /></ProtectedRoute>} />

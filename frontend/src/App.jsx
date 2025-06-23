@@ -16,6 +16,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import VentasObraSocial from './views/VentasOS';
 import EditarUsuario from './views/EditarUsuario';
 import EditarProducto from './views/EditarProducto';
+import Vencimientos from './views/Vencimientos';
+import Lotes from './views/Lotes';
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
           <Route path="/usuarios/nuevo" element={<ProtectedRoute requiredRole="admin"><NuevoUsuario /></ProtectedRoute>} />
           <Route path="/usuarios/editar/:id" element={<ProtectedRoute requiredRole="admin"><EditarUsuario /></ProtectedRoute>} />
           <Route path="/historialVentas" element={<ProtectedRoute requiredRoles={['admin', 'usuario']}><HistorialVentas /></ProtectedRoute>} />
+          <Route path="/lotes" element={<ProtectedRoute requiredRoles="admin"><Lotes /></ProtectedRoute>} />
+          <Route path="/vencimientos" element={<ProtectedRoute requiredRoles="usuario"><Vencimientos /></ProtectedRoute>} />
           <Route path="/ventas" element={<ProtectedRoute requiredRole="usuario"><Ventas /></ProtectedRoute>} />
           <Route path="/ventasOS" element={<ProtectedRoute requiredRole="usuario"><VentasObraSocial /></ProtectedRoute>} />
         </Routes>

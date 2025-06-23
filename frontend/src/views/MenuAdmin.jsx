@@ -14,6 +14,7 @@ const MenuAdmin = () => {
           <button onClick={() => navigate('/productosAdmin')}>Gestión de Productos</button>
           <button onClick={() => navigate('/usuarios')}>Gestión de Usuarios</button>
           <button onClick={() => navigate('/historialVentas')}>Historial de Ventas</button>
+          <button onClick={() => navigate('/lotes')}>Ver Lotes</button>
           <button onClick={logout}>Salir</button>
         </div>
       </div>

@@ -53,9 +53,9 @@
 }
 
 .alerta-stock,
-.alerta-ventas {
+.alerta-ventas,
+.alerta-vencimientos {
   position: fixed;
-  top: 10px; /* Ambas alertas están alineadas a la misma altura */
   padding: 12px 18px;
   border-radius: 8px;
   font-weight: 400;
@@ -70,11 +70,18 @@
 }
 
 .alerta-ventas {
-  left: 10px; /* Alineada a la izquierda */
+  left: 10px;
+  top: 10px;
 }
 
 .alerta-stock {
-  right: 10px; /* Alineada a la derecha */
+  right: 10px;
+  top: 10px;
+}
+
+.alerta-vencimientos {
+  bottom: 50px;
+  left: 10px;
 }
 
 .alerta-ventas.alerta {
@@ -101,8 +108,21 @@
   background-color: #006f2e;
 }
 
+.alerta-vencimientos.alerta {
+  background-color: #f39c12;
+}
+
+.alerta-vencimientos.alerta:hover {
+  background-color: #f57c00;
+}
+
+.alerta-vencimientos.ok {
+  background-color: #006f2e;
+}
+
 .lista-stock-bajo,
-.lista-ventas-excesivas {
+.lista-ventas-excesivas,
+.lista-vencimientos {
   margin-top: 10px;
   padding: 12px 16px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -113,17 +133,26 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   position: absolute;
   z-index: 999;
+  max-height: 300px; 
+  overflow-y: auto; 
 }
 
 .lista-stock-bajo {
-  top: 60px;  /* Justo debajo de la alerta de stock */
+  top: 60px;
   right: 20px;
 }
 
 .lista-ventas-excesivas {
-  top: 60px;  /* Justo debajo de la alerta de ventas */
+  top: 60px;
+  left: 20px;
+  bottom: auto; 
+}
+
+.lista-vencimientos {
+  bottom: 85px;
   left: 20px;
 }
+
 
 .producto-alerta {
   border-bottom: 1px solid #ddd;

@@ -21,27 +21,53 @@ const EditarProducto = () => {
     categoria: "",
   });
 
-  // Cargar producto con la ID correspondiente
+  const [categorias, setCategorias] = useState([]);
+
+  // Cargar producto con la ID que corresponda
   useEffect(() => {
     const fetchProducto = async () => {
-      console.log("Cargando producto con ID:", id);  // Verifica el id que se pasa por la URL
+      console.log("Cargando producto con ID:", id);
+
+      if (!id) {
+        console.error("ID no válido");
+        return;
+      }
+
       try {
-        // Asegúrate de que el endpoint de productos esté bien configurado
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos/${id}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/producto/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log("Producto obtenido:", res.data);  // Verifica si obtienes los datos correctamente
-        setFormData(res.data);  // Si es correcto, actualiza el formulario
+        console.log("Producto obtenido:", res.data);
+        if (res.data) {
+          setFormData(res.data);
+        } else {
+          console.error("El producto no fue encontrado.");
+          alert("Producto no encontrado.");
+        }
       } catch (err) {
-        console.error("Error al cargar producto:", err);
+        console.error("Error al cargar producto:", err.response ? err.response.data : err);
         alert("No se pudo cargar el producto.");
       }
     };
 
+    // Cargar categorías
+    const fetchCategorias = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/categoria`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCategorias(res.data); 
+      } catch (err) {
+        console.error("Error al cargar categorías:", err);
+        alert("No se pudieron cargar las categorías.");
+      }
+    };
+
     if (id) {
-      fetchProducto();  // Solo lo ejecutamos si tenemos un id válido
+      fetchProducto();
     }
+    fetchCategorias(); 
   }, [id, token]);
 
   const handleChange = (e) => {
@@ -54,14 +80,22 @@ const EditarProducto = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const dataToSend = { 
+      ...formData,
+      categoria: formData.categoria, 
+    };
+
+    console.log("Datos a enviar:", dataToSend);  
+
     try {
-      const res = await axios.put(`${import.meta.env.VITE_API_URL}/productos/${id}`, formData, {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/producto/${id}`, dataToSend, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Producto actualizado correctamente");
-      navigate("/productosadmin");  // Redirige a la página de administración de productos
+      navigate("/productosadmin");
     } catch (err) {
-      console.error("Error al actualizar producto:", err);
+      console.error("Error al actualizar producto:", err.response ? err.response.data : err);
       alert("Error al guardar cambios.");
     }
   };
@@ -137,12 +171,17 @@ const EditarProducto = () => {
         />
 
         <label>Categoría:</label>
-        <input
-          type="text"
+        <select
           name="categoria"
-          value={formData.categoria}
+          value={formData.categoria} 
           onChange={handleChange}
-        />
+        >
+          {categorias.map((categoria) => (
+            <option key={categoria._id} value={categoria._id}>
+              {categoria.nombre} {/* Mostrar el nombre de la categoría */}
+            </option>
+          ))}
+        </select>
 
         <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
           <button type="submit">Guardar cambios</button>

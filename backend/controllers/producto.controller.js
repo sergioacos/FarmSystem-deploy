@@ -30,6 +30,23 @@ exports.crear = async (req, res) => {
   
 };
 
+exports.obtenerProductoPorId = async (req, res) => {
+  const { id } = req.params;  
+
+  try {
+    const producto = await Producto.findById(id);
+
+    if (!producto) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    res.json(producto);
+  } catch (error) {
+    console.error('Error al obtener el producto por ID:', error);
+    res.status(500).json({ mensaje: 'Error al obtener el producto' });
+  }
+};
+
 // Buscar un producto por nombre (exacto o parcial)
 exports.buscarPorNombre = async (req, res) => {
   const { nombre } = req.query;
@@ -51,5 +68,25 @@ exports.buscarPorNombre = async (req, res) => {
   } catch (error) {
     console.error("Error al buscar producto por nombre:", error);
     res.status(500).json({ mensaje: "Error al buscar producto" });
+  }
+};
+
+exports.actualizarProducto = async (req, res) => {
+  const { id } = req.params;
+  const dataToUpdate = req.body;
+
+  try {
+    const producto = await Producto.findByIdAndUpdate(id, dataToUpdate, {
+      new: true,  
+    });
+
+    if (!producto) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    res.json(producto); // Devuelve el producto actualizado
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+    res.status(500).json({ mensaje: 'Error al actualizar producto' });
   }
 };

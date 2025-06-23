@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('usuario');
     setToken(null);
     setUser(null);
-    navigate('/login');
+    navigate('/');
   }, [navigate]);
 
   useEffect(() => {

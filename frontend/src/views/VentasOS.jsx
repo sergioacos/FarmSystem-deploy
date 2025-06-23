@@ -198,22 +198,22 @@ useEffect(() => {
            
         <div className="form-info">
         <label>
-  Fecha de prescripción:
-  <input
-    type="text"
-    value={new Date(receta.fechaEmision).toLocaleDateString()}
-    readOnly
-  />
-</label>
-
-<label>
-  Fecha de vencimiento:
-  <input
-    type="text"
-    value={fechaVencimiento.toLocaleDateString()}
-    readOnly
-  />
-</label>
+          Fecha de prescripción:
+          <input
+            type="text"
+            value={new Date(receta.fechaEmision).toLocaleDateString()}
+            readOnly
+          />
+        </label>
+<br />
+        <label>
+          Fecha de vencimiento:
+          <input
+            type="text"
+            value={fechaVencimiento.toLocaleDateString()}
+            readOnly
+          />
+        </label>
 
 {recetaVencida && (
   <p style={{ color: "red", fontWeight: "bold" }}>⚠ Receta vencida</p>
@@ -315,14 +315,6 @@ useEffect(() => {
           <p>No hay productos agregados.</p>
         ) : (
           <ul>
-            {/* {carrito.map((item, index) => (
-              <li key={index}>
-                {item.nombre} - Cantidad: {item.cantidad}
-                <button onClick={() => setCarrito(carrito.filter((_, i) => i !== index))} style={{ marginLeft: "10px" }}>
-                  Eliminar
-                </button>
-              </li>
-            ))} */}
 
             {carrito.map((item, index) => (
           <li key={item.producto_id}>

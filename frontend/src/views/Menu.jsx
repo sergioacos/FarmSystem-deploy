@@ -9,25 +9,27 @@ const Menu = () => {
   const { logout } = useAuth();
   const [alertaStock, setAlertaStock] = useState(false);
   const [alertaVentas, setAlertaVentas] = useState(false);  
+  const [alertaVencimientos, setAlertaVencimientos] = useState(false); 
   const [productosBajoStock, setProductosBajoStock] = useState([]);
   const [productosExcesivos, setProductosExcesivos] = useState([]);
+  const [productosVencimiento, setProductosVencimiento] = useState([]); 
   const [mostrarListaStock, setMostrarListaStock] = useState(false); 
   const [mostrarListaVentas, setMostrarListaVentas] = useState(false); 
+  const [mostrarListaVencimientos, setMostrarListaVencimientos] = useState(false); 
 
   // Estados de carga
   const [loading, setLoading] = useState(true);
   const [loadingVentas, setLoadingVentas] = useState(true);
+  const [loadingVencimientos, setLoadingVencimientos] = useState(true); 
 
-  // useEffect para verificar productos con stock bajo y ventas inusuales en paralelo
   useEffect(() => {
-    const fetchStockAndVentas = async () => {
+    const fetchStockAndVentasAndVencimientos = async () => {
       try {
-        // Cargar stock
         const stockResponse = axios.get(`${import.meta.env.VITE_API_URL}/producto`);
-        // Cargar ventas inusuales
         const ventasResponse = axios.get(`${import.meta.env.VITE_API_URL}/venta/ultimas-24-horas`);
+        const vencimientosResponse = axios.get(`${import.meta.env.VITE_API_URL}/alerta-vencimientos`);
 
-        const [stockData, ventasData] = await Promise.all([stockResponse, ventasResponse]);
+        const [stockData, ventasData, vencimientosData] = await Promise.all([stockResponse, ventasResponse, vencimientosResponse]);
 
         // Procesar datos de stock
         const productos = stockData.data;
@@ -40,15 +42,21 @@ const Menu = () => {
         setProductosExcesivos(productosVentas);
         setAlertaVentas(alerta);
 
+        // Procesar datos de vencimientos
+        const productosVencimientoProximo = vencimientosData.data;
+        setProductosVencimiento(productosVencimientoProximo);
+        setAlertaVencimientos(productosVencimientoProximo.length > 0);
+
       } catch (error) {
         console.error('Error al cargar datos:', error);
       } finally {
-        setLoading(false); // Finaliza la carga
-        setLoadingVentas(false); // Finaliza la carga de ventas inusuales
+        setLoading(false);
+        setLoadingVentas(false);
+        setLoadingVencimientos(false);
       }
     };
 
-    fetchStockAndVentas();
+    fetchStockAndVentasAndVencimientos();
   }, []); 
 
   const toggleListaStock = () => {
@@ -59,50 +67,87 @@ const Menu = () => {
     setMostrarListaVentas(!mostrarListaVentas); 
   };
 
+  const toggleListaVencimientos = () => {
+    setMostrarListaVencimientos(!mostrarListaVencimientos); 
+  };
+
   const irProductos = () => {
     navigate('/productos');
   };
 
+  const irVencimientos = () => {
+    navigate('/vencimientos');
+  };
+
   return (
     <div className="menu-container" style={{ position: 'relative' }}>
-      <div
-        className={`alerta-ventas ${alertaVentas ? 'alerta' : 'ok'}`}
-        title={alertaVentas ? 'Ventas inusuales de productos en las últimas 24 hs.' : 'Ventas dentro del rango esperado'}
-        style={{
-          cursor: alertaVentas ? 'pointer' : 'default',
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          padding: '12px 18px',
-          backgroundColor: alertaVentas ? '#e53935' : '#006f2e',
-          color: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-          fontSize: '14px',
-          fontWeight: '500',
-          fontFamily: "'Poppins', sans-serif",
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={toggleListaVentas}  
-      >
-        {loadingVentas
-          ? 'Cargando ventas...'
-          : alertaVentas
-          ? 'Cantidades inusuales de productos vendidos en las últimas 24 hs. ▼'
-          : 'Ventas dentro del rango esperado'}
-      </div>
+      {/* Alerta de ventas inusuales */}
+      {alertaVentas && (
+        <div
+          className={`alerta-ventas ${alertaVentas ? 'alerta' : 'ok'}`}
+          title={alertaVentas ? 'Ventas inusuales de productos en las últimas 24 hs.' : 'Ventas dentro del rango esperado'}
+          onClick={toggleListaVentas}  
+        >
+          {loadingVentas
+            ? 'Cargando ventas...'
+            : alertaVentas
+            ? 'Cantidades inusuales de productos vendidos en las últimas 24 hs. ▼'
+            : 'Ventas dentro del rango esperado'}
+        </div>
+      )}
 
       {/* Alerta de stock bajo */}
+      {alertaStock && (
+        <div
+          className={`alerta-stock ${alertaStock ? 'alerta' : 'ok'}`}
+          title={alertaStock ? 'Productos con stock crítico' : 'Stock OK'}
+          onClick={toggleListaStock}
+        >
+          {alertaStock
+            ? 'Stock crítico de productos ▼'
+            : 'No hay productos con stock crítico'}
+        </div>
+      )}
+
+      {/* Alerta de vencimientos próximos */}
       <div
-        className={`alerta-stock ${alertaStock ? 'alerta' : 'ok'}`}
-        title={alertaStock ? 'Productos con stock crítico' : 'Stock OK'}
-        onClick={toggleListaStock}
-        style={{ cursor: alertaStock ? 'pointer' : 'default' }}
+        className={`alerta-vencimientos ${alertaVencimientos ? 'alerta' : 'ok'}`}
+        title={alertaVencimientos ? 'Productos próximos a vencer en 7 días' : 'Vencimientos OK'}
+        onClick={toggleListaVencimientos} 
       >
-        {alertaStock
-          ? 'Stock crítico de productos ▼'
-          : 'No hay productos con stock crítico'}
+        {loadingVencimientos
+          ? 'Cargando vencimientos...'
+          : alertaVencimientos
+          ? 'Productos próximos a vencer en los próximos 7 días ▼'
+          : 'No hay vencimientos próximos'}
       </div>
+
+      {/* Contenedor de botones */}
+      <div className="menu-box">
+        <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
+        <button onClick={() => navigate('/ventas')}>Gestión de Ventas</button>
+        <button onClick={irVencimientos}>Vencimientos Próximos</button>
+        <button onClick={logout}>Salir</button>
+      </div>
+
+      {/* Lista de productos con vencimientos próximos */}
+      {mostrarListaVencimientos && alertaVencimientos && (
+        <div className="lista-vencimientos">
+          <ul style={{ margin: 0, paddingLeft: '16px' }}>
+            {productosVencimiento.map((lote) => (
+              <li key={lote._id} className="producto-alerta">
+                <strong>{lote.numero_lote}</strong><br />
+                <small>Fecha de Vencimiento: {new Date(lote.fecha_caducidad).toLocaleDateString()}</small><br />
+                {lote.productos.map((producto, index) => (
+                  <div key={index}>
+                    <small>{producto.producto_id?.nombre} — Cantidad: {producto.cantidad_asociada}</small>
+                  </div>
+                ))}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Lista de productos con ventas inusuales */}
       {mostrarListaVentas && alertaVentas && (
@@ -134,12 +179,6 @@ const Menu = () => {
           </button>
         </div>
       )}
-
-      <div className="menu-box">
-        <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
-        <button onClick={() => navigate('/ventas')}>Gestión de Ventas</button>
-        <button onClick={logout}>Salir</button>
-      </div>
 
       <div className="footer">
         <p>© 2025 Invexa</p>

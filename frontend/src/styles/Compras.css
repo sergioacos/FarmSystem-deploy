@@ -1,0 +1,199 @@
+.productos-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: #f4f4f9;
+  padding: 20px;
+}
+
+.productos-box {
+  max-width: 900px;
+  width: 90vw;
+  min-width: 500px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  position: relative;
+  text-align: center;
+}
+
+.productos-box h2 {
+  margin-bottom: 30px;
+  margin-top: 60px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #26a69a;
+  text-transform: uppercase;
+}
+
+.agregar-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #26a69a; 
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.agregar-button:hover {
+  background-color: #00796b; 
+  transform: translateY(-2px);
+}
+
+.search-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.productos-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.producto-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.producto-card h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.producto-card p {
+  font-size: 1rem;
+  margin: 6px 0;
+}
+
+.producto-card button {
+  background-color: #26a69a; 
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.producto-card button:hover {
+  background-color: #00796b; 
+}
+
+.lote-form input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.lote-form input[type="number"] {
+  width: 45%;
+  margin-right: 10px;
+}
+
+.productos-lote {
+  margin-top: 30px;
+}
+
+.productos-lote ul {
+  list-style: none;
+  padding: 0;
+}
+
+.productos-lote li {
+  font-size: 1rem;
+  padding: 5px;
+  background-color: #f4f4f9;
+  border-radius: 6px;
+  margin: 10px 0;
+}
+
+.productos-lote button {
+  background-color: #d32f2f; 
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.productos-lote button:hover {
+  background-color: #b71c1c; 
+}
+
+.agregar-lote-btn {
+  background-color: #26a69a; 
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px; 
+}
+
+.agregar-lote-btn:hover {
+  background-color: #00796b; 
+}
+
+.botones-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.back-button {
+  background-color: #26a69a;  
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #00796b;  
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.footer p {
+  font-size: 14px;
+  color: white;
+}

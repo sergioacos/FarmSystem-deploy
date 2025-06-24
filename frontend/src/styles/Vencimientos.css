@@ -1,13 +1,13 @@
-.productos-container {
+.lotes-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: space-between; 
+  justify-content: space-between;
   background-color: #f4f4f9;
   padding: 20px;
 }
 
-.productos-box {
+.lotes-box {
   max-width: 900px; 
   width: 90vw;     
   min-width: 500px; 
@@ -20,7 +20,7 @@
   text-align: center;
 }
 
-.productos-box h2 {
+.lotes-box h2 {
   margin-bottom: 30px;
   margin-top: 60px;
   font-family: 'Roboto', sans-serif;
@@ -28,6 +28,40 @@
   font-weight: bold;
   color: #26a69a; 
   text-transform: uppercase;
+}
+
+.lotes-lista {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+}
+
+.lote-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lote-info {
+  margin-bottom: 10px;
+}
+
+.productos-lote {
+  margin-top: 15px;
+}
+
+.productos-lote-lista {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.producto-item {
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 14px;
+  padding: 4px 0;
 }
 
 .agregar-button {
@@ -55,40 +89,8 @@
   margin-top: 40px;
 }
 
-.button-pdf{
+.button-pdf {
   margin-top: 40px;
-}
-
-.ventas-lista {
-  text-align: left;
-  margin-top: 30px;
-  list-style: none;
-  padding-left: 0;
-}
-
-.venta-item {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
-}
-
-.venta-item p {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  color: #444;
-  margin: 6px 0;
-}
-
-.productos-lista {
-  padding-left: 20px;
-  list-style: disc;
-  margin-top: 6px;
-}
-
-.productos-lista li {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 4px;
 }
 
 .back-button {
@@ -98,7 +100,6 @@
   border: none;
   border-radius: 6px;
   font-size: 16px;
-  margin-top: 30px;
   transition: background-color 0.3s ease;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
@@ -107,42 +108,3 @@
 .back-button:hover {
   background-color: #00796b;
 }
-
-.input-id-receta {
-  width: 150px;
-  margin: 2px 5px;
-}
-
-.selectOS{
-  height: 40px;
-  margin: 2px 5px;
-}
-
-.tabla-receta {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.tabla-receta th,
-.tabla-receta td {
-  border: 1px solid #ccc;
-  /* padding: 8px; */
-  text-align: center;
-}
-
-.tabla-receta th {
-  background-color: #f2f2f2;
-}
-
-.tabla-receta button {
-  padding: 0px 6px;
-  cursor: pointer;
-}
-
-.carrito-box{
-  margin-bottom: 25px;
-}
-
-
-

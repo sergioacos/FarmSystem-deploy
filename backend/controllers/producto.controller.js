@@ -29,3 +29,90 @@ exports.crear = async (req, res) => {
   }
   
 };
+
+exports.obtenerProductoPorId = async (req, res) => {
+  const { id } = req.params;  
+
+  try {
+    const producto = await Producto.findById(id);
+
+    if (!producto) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    res.json(producto);
+  } catch (error) {
+    console.error('Error al obtener el producto por ID:', error);
+    res.status(500).json({ mensaje: 'Error al obtener el producto' });
+  }
+};
+
+// Buscar un producto por nombre (exacto o parcial)
+exports.buscarPorNombre = async (req, res) => {
+  const { nombre } = req.query;
+
+  if (!nombre) {
+    return res.status(400).json({ mensaje: "Falta el parámetro 'nombre'" });
+  }
+
+  try {
+    // Búsqueda insensible a mayúsculas/minúsculas y con coincidencia parcial
+    const regex = new RegExp(nombre, 'i');
+    const productos = await Producto.find({ nombre: { $regex: regex } });
+
+    if (productos.length === 0) {
+      return res.status(404).json({ mensaje: "No se encontró ningún producto con ese nombre" });
+    }
+
+    res.json(productos);
+  } catch (error) {
+    console.error("Error al buscar producto por nombre:", error);
+    res.status(500).json({ mensaje: "Error al buscar producto" });
+  }
+};
+
+exports.actualizarProducto = async (req, res) => {
+  const { id } = req.params;
+  const dataToUpdate = req.body;
+
+  try {
+    const producto = await Producto.findByIdAndUpdate(id, dataToUpdate, {
+      new: true,  
+    });
+
+    if (!producto) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    res.json(producto); // Devuelve el producto actualizado
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+    res.status(500).json({ mensaje: 'Error al actualizar producto' });
+  }
+};
+
+// Función para sumar stock al producto (al comprar un lote)
+exports.sumarStock = async (req, res) => {
+  const { id } = req.params;
+  const { cantidad } = req.body; // La cantidad a sumar al stock
+
+  try {
+    // Buscar el producto por ID
+    const producto = await Producto.findById(id);
+
+    if (!producto) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    // Sumar la cantidad al stock
+    producto.stock_actual += cantidad;
+
+    // Guardar el producto con el stock actualizado
+    await producto.save();
+
+    res.json(producto); 
+  } catch (error) {
+    console.error('Error al actualizar el stock:', error);
+    res.status(500).json({ mensaje: 'Error al actualizar el stock del producto' });
+  }
+};

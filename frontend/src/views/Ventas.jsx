@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../styles/Productos.css";
+import "../styles/Ventas.css";
 
 const Ventas = () => {
   const [productos, setProductos] = useState([]);
@@ -15,8 +15,7 @@ const Ventas = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProductos = async () => {
+  const fetchProductos = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/producto`);
         setProductos(response.data);
@@ -24,6 +23,16 @@ const Ventas = () => {
         console.error("Error al obtener los productos:", error);
       }
     };
+
+  useEffect(() => {
+    // const fetchProductos = async () => {
+    //   try {
+    //     const response = await axios.get(`${import.meta.env.VITE_API_URL}/producto`);
+    //     setProductos(response.data);
+    //   } catch (error) {
+    //     console.error("Error al obtener los productos:", error);
+    //   }
+    // };
 
     fetchProductos();
   }, []);
@@ -77,9 +86,11 @@ const enviarVenta = async () => {
   };
 
   try {
-    await axios.post("http://localhost:5000/api/venta", nuevaVenta);
+    // await axios.post("http://localhost:5000/api/venta", nuevaVenta);
+    await axios.post(`${import.meta.env.VITE_API_URL}/venta`, nuevaVenta);
     alert("Venta registrada con éxito.");
     setCarrito([]);
+    fetchProductos(); // 🔄 Vuelve a cargar el stock actualizado
   } catch (error) {
     console.error("Error al registrar la venta:", error);
   }
@@ -119,6 +130,19 @@ const eliminarDelCarrito = (index) => {
   return (
     <div className="productos-container">
       <div className="productos-box">
+        <button
+          className="agregar-button"
+          onClick={() => navigate("/historialVentas")}
+        >
+          Ver Historial de Ventas
+        </button>
+        
+        <button
+          className="agregar-button button-ventasOS"
+          onClick={() => navigate("/ventasOS")}
+        >
+          Ventas con Obra Social
+        </button>
         <h2>Gestión de Ventas</h2>
         {/* Filtro por nombre */}
         <div className="search-container">
@@ -151,7 +175,7 @@ const eliminarDelCarrito = (index) => {
           <p>No hay productos disponibles o no coinciden con la búsqueda.</p>
         )}
 
-        <button className="back-button" onClick={() => navigate('/menuadmin')}>
+        <button className="back-button" onClick={() => navigate('/menu')}>
           Volver al Menú Principal
         </button>
       </div>

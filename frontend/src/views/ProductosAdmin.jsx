@@ -2,20 +2,34 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/Productos.css";
+import { useAuth } from "../context/AuthContext";
 
-const Productos = () => {
+const ProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [categoriaFiltro, setCategoriaFiltro] = useState("");
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [prodRes, catRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/producto`),
-          axios.get(`${import.meta.env.VITE_API_URL}/categoria`)
+        //   axios.get(`${import.meta.env.VITE_API_URL}/producto`, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }),
+        axios.get(`${import.meta.env.VITE_API_URL}/producto`),
+      //     axios.get(`${import.meta.env.VITE_API_URL}/categoria`
+      //       ,{
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // )
+      axios.get(`${import.meta.env.VITE_API_URL}/categoria`)
         ]);
         setProductos(prodRes.data);
         setCategorias(catRes.data);
@@ -43,6 +57,12 @@ const Productos = () => {
   return (
     <div className="productos-container">
       <div className="productos-box">
+        <button
+          className="agregar-button"
+          onClick={() => navigate("/productos/nuevo")}
+        >
+          Agregar nuevo producto
+        </button>
         <h2>Gestión de Productos</h2>
 
         {/* Filtro por nombre */}
@@ -65,7 +85,9 @@ const Productos = () => {
           >
             <option value="">Todas las categorías</option>
             {categorias.map((cat) => (
-              <option key={cat._id} value={cat._id}>{cat.nombre}</option>
+              <option key={cat._id} value={cat._id}>
+                {cat.nombre}
+              </option>
             ))}
           </select>
         </div>
@@ -78,10 +100,22 @@ const Productos = () => {
                 <div className="producto-details">
                   <h3>{producto.nombre}</h3>
                   <p>{producto.laboratorio}</p>
-                  <p><strong>${producto.precio}</strong></p>
+                  <p>
+                    <strong>${producto.precio}</strong>
+                  </p>
                   <p>{producto.stock_actual} en stock</p>
-                  <p><em>{obtenerNombreCategoria(producto.categoria)}</em></p> {/* Mostrar nombre  */}
+                  <p>
+                    <em>{obtenerNombreCategoria(producto.categoria)}</em>
+                  </p>
                 </div>
+
+                {/* Botón Editar */}
+                <button
+                  className="editar-button"
+                  onClick={() => navigate(`/productos/editar/${producto._id}`)}
+                >
+                  Editar
+                </button>
               </div>
             ))}
           </div>
@@ -89,7 +123,7 @@ const Productos = () => {
           <p>No hay productos disponibles o no coinciden con los filtros.</p>
         )}
 
-        <button className="back-button" onClick={() => navigate('/menu')}>
+        <button className="back-button" onClick={() => navigate("/menuAdmin")}>
           Volver al Menú Principal
         </button>
       </div>
@@ -101,4 +135,4 @@ const Productos = () => {
   );
 };
 
-export default Productos;
+export default ProductosAdmin;

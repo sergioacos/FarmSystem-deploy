@@ -90,3 +90,29 @@ exports.actualizarProducto = async (req, res) => {
     res.status(500).json({ mensaje: 'Error al actualizar producto' });
   }
 };
+
+// Función para sumar stock al producto (al comprar un lote)
+exports.sumarStock = async (req, res) => {
+  const { id } = req.params;
+  const { cantidad } = req.body; // La cantidad a sumar al stock
+
+  try {
+    // Buscar el producto por ID
+    const producto = await Producto.findById(id);
+
+    if (!producto) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    // Sumar la cantidad al stock
+    producto.stock_actual += cantidad;
+
+    // Guardar el producto con el stock actualizado
+    await producto.save();
+
+    res.json(producto); 
+  } catch (error) {
+    console.error('Error al actualizar el stock:', error);
+    res.status(500).json({ mensaje: 'Error al actualizar el stock del producto' });
+  }
+};

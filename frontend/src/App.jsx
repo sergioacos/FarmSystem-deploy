@@ -18,6 +18,7 @@ import EditarUsuario from './views/EditarUsuario';
 import EditarProducto from './views/EditarProducto';
 import Vencimientos from './views/Vencimientos';
 import Lotes from './views/Lotes';
+import Compras from './views/Compras';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/vencimientos" element={<ProtectedRoute requiredRoles="usuario"><Vencimientos /></ProtectedRoute>} />
           <Route path="/ventas" element={<ProtectedRoute requiredRole="usuario"><Ventas /></ProtectedRoute>} />
           <Route path="/ventasOS" element={<ProtectedRoute requiredRole="usuario"><VentasObraSocial /></ProtectedRoute>} />
+          <Route path="/compras" element={<ProtectedRoute requiredRole="usuario"><Compras /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

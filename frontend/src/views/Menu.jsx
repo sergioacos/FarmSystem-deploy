@@ -126,6 +126,7 @@ const Menu = () => {
       <div className="menu-box">
         <button onClick={() => navigate('/productos')}>Gestión de Productos</button>
         <button onClick={() => navigate('/ventas')}>Gestión de Ventas</button>
+        <button onClick={() => navigate('/compras')}>Gestión de Compras</button>
         <button onClick={irVencimientos}>Vencimientos Próximos</button>
         <button onClick={logout}>Salir</button>
       </div>

@@ -7,6 +7,8 @@ router.post('/', controlador.crear);
 router.get('/buscar',controlador.buscarPorNombre);
 router.get('/:id', controlador.obtenerProductoPorId);
 router.put('/:id', controlador.actualizarProducto);
+router.patch('/:id/stock', controlador.sumarStock);
+
 
 
 module.exports = router;

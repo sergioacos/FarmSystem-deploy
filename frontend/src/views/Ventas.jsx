@@ -139,7 +139,7 @@ const eliminarDelCarrito = (index) => {
         
         <button
           className="agregar-button button-ventasOS"
-          onClick={() => navigate("/VentasOS")}
+          onClick={() => navigate("/ventasOS")}
         >
           Ventas con Obra Social
         </button>

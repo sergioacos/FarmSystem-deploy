@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/Productos.css";
+import { useAuth } from "../context/AuthContext";
 
 const ProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
@@ -9,13 +10,26 @@ const ProductosAdmin = () => {
   const [filtro, setFiltro] = useState("");
   const [categoriaFiltro, setCategoriaFiltro] = useState("");
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [prodRes, catRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/producto`),
-          axios.get(`${import.meta.env.VITE_API_URL}/categoria`)
+        //   axios.get(`${import.meta.env.VITE_API_URL}/producto`, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }),
+        axios.get(`${import.meta.env.VITE_API_URL}/producto`),
+      //     axios.get(`${import.meta.env.VITE_API_URL}/categoria`
+      //       ,{
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // )
+      axios.get(`${import.meta.env.VITE_API_URL}/categoria`)
         ]);
         setProductos(prodRes.data);
         setCategorias(catRes.data);

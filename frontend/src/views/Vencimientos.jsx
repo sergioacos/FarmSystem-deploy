@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/Vencimientos.css"; 
 import { useAuth } from "../context/AuthContext";
-
+import { calcularDescuento } from "../utils/calcularDescuento"
 const Vencimientos = () => {
   const [lotes, setLotes] = useState([]);
   const [productosDetalles, setProductosDetalles] = useState({});
@@ -82,6 +82,7 @@ const Vencimientos = () => {
                 <p><strong>Número de Lote:</strong> {lote.numero_lote}</p>
                 <p><strong>Fecha de Caducidad:</strong> {new Date(lote.fecha_caducidad).toLocaleDateString()}</p>
                 <p><strong>Cantidad:</strong> {lote.cantidad}</p>
+                <p><strong>Descuento a plicar:</strong> {calcularDescuento(lote.fecha_caducidad)}%</p>
                 <p><strong>Productos:</strong></p>
                 <ul className="productos-lote-lista">
                   {lote.productos.map((producto) => {

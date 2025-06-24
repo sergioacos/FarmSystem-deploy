@@ -50,7 +50,7 @@ const NuevoProducto = () => {
       };
 
       await axios.post(`${import.meta.env.VITE_API_URL}/producto`, nuevoProducto);
-      navigate("/productos");
+      navigate("/productosadmin");
     } catch (err) {
       console.error("Error al crear producto", err);
       setError("Hubo un error al guardar el producto.");

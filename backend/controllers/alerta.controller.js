@@ -21,7 +21,7 @@ async function obtenerAlertasVencimientos(req, res) {
   try {
     const fechaLimite = new Date();
     fechaLimite.setDate(fechaLimite.getDate() + 8); // Hasta 7 días
-
+   
     const lotesVencimientoCercano = await Lote.find({
       fecha_caducidad: { $lte: fechaLimite }
     }).populate('productos.producto_id');  
@@ -29,7 +29,7 @@ async function obtenerAlertasVencimientos(req, res) {
     lotesVencimientoCercano.forEach(lote => {
       lote.descuento = calcularDescuento(lote.fecha_caducidad);
     });
-
+    
     res.json(lotesVencimientoCercano);
   } catch (err) {
     console.error('Error al obtener lotes próximos a vencer:', err);

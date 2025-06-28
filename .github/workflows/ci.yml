@@ -1,0 +1,41 @@
+name: CI - Backend Test
+
+on:
+  push:
+    branches: [develop, Eva]
+  pull_request:
+    branches: [develop, Eva]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongosh --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v3
+
+    - name: Usar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Instalar dependencias
+      working-directory: ./backend/server
+      run: npm install
+
+    - name: Correr tests
+      working-directory: ./backend/server
+      env:
+        MONGODB_URI: mongodb://localhost:27017/invexa_test
+      run: npm test

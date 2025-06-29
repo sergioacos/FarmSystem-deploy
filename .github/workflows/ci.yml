@@ -39,7 +39,7 @@ jobs:
       env:
         MONGODB_URI: mongodb://localhost:27017/invexa_test
       run: npm test
-      
+
   docker-build-push:
     name: Build & Push Docker image
     runs-on: ubuntu-latest
@@ -63,4 +63,4 @@ jobs:
         with:
           context: ./backend/server
           push: true
-          tags: sergioacosta/farmsystem-backend:latest
+          tags: sergiodev1984/farmsystem-backend:latest

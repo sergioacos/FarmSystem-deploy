@@ -20,7 +20,9 @@ const recetaRoutes = require('./routes/recetaElectronica.routes')
 const reporteRoutes = require("./routes/reporte.routes");
 const loteRoutes = require('./routes/lotes.routes');
 
-
+app.get('/', (req, res) => {
+  res.send('FarmSystem backend funcionando correctamente 🚀');
+});
 app.use('/api/producto', productoRoutes);
 app.use('/api/categoria', categoriaRoutes);
 app.use('/api/venta', ventaRoutes);

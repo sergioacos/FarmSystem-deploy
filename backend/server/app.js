@@ -7,7 +7,8 @@ const authRoutes = require("./routes/auth.routes");
 const app = express();
 
 // Middlewares
-app.use(cors()); // Permite peticiones desde el frontend
+//app.use(cors()); // Permite peticiones desde el frontend
+app.use(cors({ origin: 'https://farmsystem-backend.onrender.com' }));
 app.use(express.json()); // Permite leer JSON en los requests
 
 

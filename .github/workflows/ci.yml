@@ -39,3 +39,28 @@ jobs:
       env:
         MONGODB_URI: mongodb://localhost:27017/invexa_test
       run: npm test
+      
+  docker-build-push:
+    name: Build & Push Docker image
+    runs-on: ubuntu-latest
+
+    needs: test  # Se ejecuta solo si el job de test pasó
+
+    if: github.ref == 'refs/heads/main'  # Solo si se hace push en main
+
+    steps:
+      - name: Checkout del código fuente
+        uses: actions/checkout@v3
+
+      - name: Login a Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Construir y pushear imagen del backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/server
+          push: true
+          tags: sergioacosta/farmsystem-backend:latest

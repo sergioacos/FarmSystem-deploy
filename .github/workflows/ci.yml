@@ -2,9 +2,9 @@ name: CI - Backend Test
 
 on:
   push:
-    branches: [develop, Eva]
+    branches: [main, develop, Eva]
   pull_request:
-    branches: [develop, Eva]
+    branches: [main, develop, Eva]
 
 jobs:
   test:
@@ -63,4 +63,4 @@ jobs:
         with:
           context: ./backend/server
           push: true
-          tags: sergiodev1984/farmsystem-deploy-backend:latest
+          tags: sergiodev1984/farmsystem-backend:latest

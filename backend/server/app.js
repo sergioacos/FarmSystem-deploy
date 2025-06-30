@@ -8,7 +8,10 @@ const app = express();
 
 // Middlewares
 //app.use(cors()); // Permite peticiones desde el frontend
-app.use(cors({ origin: 'https://farmsystem-deploy.onrender.com', 'http://localhost:3000' }));
+app.use(cors({
+  origin: ['https://farmsystem-deploy.onrender.com', 'http://localhost:3000'],
+  credentials: true
+}));
 app.use(express.json()); // Permite leer JSON en los requests
 
 
